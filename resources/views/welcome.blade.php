@@ -1,100 +1,145 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Widget</title>
 
-        <title>Laravel</title>
+    <link
+        href="{{ asset("css/font-awesome.min.css") }}" rel="stylesheet"/>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        href="{{ asset('css/bootstrap.min.css') }}"
+        rel="stylesheet"
+    />
+</head>
+<body>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+<section class="vh-100">
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-7 col-xl-5 mb-3">
+                <div class="form-group">
+                    <input type="text" name="autocomplete" id="autocomplete" class="form-control" placeholder="Enter Your Location" style="height: 55px !important;">
                 </div>
             </div>
         </div>
-    </body>
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-7 col-xl-5" id="wrapperDiv">
+
+                <div id="wrapper-bg" class="card text-white bg-image shadow-4-strong"
+                     style="background-image: url('img/clouds.gif')">
+                    <!-- Main current data -->
+                    <div class="card-header p-4 border-0">
+                        <div class="text-center mb-3">
+                            <p class="h2 mb-1" id="wrapper-name"></p>
+                            <p class="mb-1" id="wrapper-description"></p>
+                            <p class="display-1 mb-1" id="wrapper-temp"></p>
+                            <span class="">Pressure: <span id="wrapper-pressure"></span></span>
+                            <span class="mx-2">|</span>
+                            <span class="">Humidity: <span id="wrapper-humidity"></span></span>
+                        </div>
+                    </div>
+
+                    <!-- Hourly forecast -->
+                    <div class="card-body p-4 border-top border-bottom mb-2">
+                        <div class="row text-center">
+                            <div class="col-2">
+                                <strong class="d-block mb-2">Now</strong>
+                                <img id="wrapper-icon-hour-now" src="" class="" alt="" />
+                                <strong class="d-block" id="wrapper-hour-now"></strong>
+                            </div>
+
+                            <div class="col-2">
+                                <strong class="d-block mb-2" id="wrapper-time1"></strong>
+                                <img id="wrapper-icon-hour1" src="" class="" alt="" />
+                                <strong class="d-block" id="wrapper-hour1"></strong>
+                            </div>
+
+                            <div class="col-2">
+                                <strong class="d-block mb-2" id="wrapper-time2"></strong>
+                                <img id="wrapper-icon-hour2" src="" class="" alt="" />
+                                <strong class="d-block" id="wrapper-hour2"></strong>
+                            </div>
+
+                            <div class="col-2">
+                                <strong class="d-block mb-2" id="wrapper-time3"></strong>
+                                <img id="wrapper-icon-hour3" src="" class="" alt="" />
+                                <strong class="d-block" id="wrapper-hour3"></strong>
+                            </div>
+
+                            <div class="col-2">
+                                <strong class="d-block mb-2" id="wrapper-time4"></strong>
+                                <img id="wrapper-icon-hour4" src="" class="" alt="" />
+                                <strong class="d-block" id="wrapper-hour4"></strong>
+                            </div>
+
+                            <div class="col-2">
+                                <strong class="d-block mb-2" id="wrapper-time5"></strong>
+                                <img id="wrapper-icon-hour5" src="" class="" alt="" />
+                                <strong class="d-block" id="wrapper-hour5"></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily forecast -->
+                    <div class="card-body px-5">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <strong>Today</strong>
+                            </div>
+
+                            <div class="col-lg-2 text-center">
+                                <img id="wrapper-icon-today" src="" class="w-100" alt="" />
+                            </div>
+
+                            <div class="col-lg-4 text-end">
+                                <span id="wrapper-forecast-temp-today"></span>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <strong>Tomorrow</strong>
+                            </div>
+
+                            <div class="col-lg-2 text-center">
+                                <img id="wrapper-icon-tomorrow" src="" class="w-100" alt="" />
+                            </div>
+
+                            <div class="col-lg-4 text-end">
+                                <span id="wrapper-forecast-temp-tomorrow">28</span>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <strong>Day after tomorrow</strong>
+                            </div>
+
+                            <div class="col-lg-2 text-center">
+                                <img id="wrapper-icon-dAT" src="" class="w-100" alt="" />
+                            </div>
+
+                            <div class="col-lg-4 text-end">
+                                <span id="wrapper-forecast-temp-dAT">28</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+</body>
 </html>
