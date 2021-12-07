@@ -141,5 +141,8 @@
 </section>
 
 <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAjriPpA6nOQ3QQpY4p27EbBw0TepU9WHM&libraries=places" ></script>
+<script>var route = "{{route('weather.Location')}}";</script>
+<script type="text/javascript" src="{{ asset('js/widget.js') }}"></script>
 </body>
 </html>
