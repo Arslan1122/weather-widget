@@ -15,7 +15,9 @@ class WeatherService
     {
         $client = new Client();
 
-        $api = "https://api.openweathermap.org/data/2.5/onecall?units=metric&lat=$request->lat&lon=$request->lon&exclude=$request->exclude&appid=$request->appid";
+        $params = "units=metric&lat=$request->lat&lon=$request->lon&exclude=$request->exclude&appid=$request->appid";
+
+        $api = config('services.openweather.api')."data/2.5/onecall?$params";
 
         $response =  $client->get($api);
 
